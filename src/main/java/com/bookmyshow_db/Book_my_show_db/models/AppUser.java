@@ -24,7 +24,7 @@ public class AppUser {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     UUID id;
-    @Column(unique = true, nullable = false)
+    @Column(nullable = false)
     String name;
     @Column(unique = true, nullable = false)
     String email;
