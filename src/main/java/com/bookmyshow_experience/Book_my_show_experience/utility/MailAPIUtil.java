@@ -9,6 +9,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import com.bookmyshow_experience.Book_my_show_experience.dbResponse.Theater;
+
 @Service
 public class MailAPIUtil {
 
@@ -29,5 +31,19 @@ public class MailAPIUtil {
             throw e;
         }
 
+    }
+
+    public void sendTheaterRegistrationMail(Theater theater) {
+        String url = mailApiUrl + "/theater/create";
+        URI finalUrl = URI.create(url);
+
+        RequestEntity req = RequestEntity.put(finalUrl).body(theater);
+
+        RestTemplate restTemplate = new RestTemplate();
+        try {
+            ResponseEntity<String> response = restTemplate.exchange(finalUrl, HttpMethod.PUT, req, String.class);
+        } catch (Exception e) {
+            throw e;
+        }
     }
 }
