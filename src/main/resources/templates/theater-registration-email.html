@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Theater Registration Successful</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+        .container {
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .header {
+            text-align: center;
+        }
+        .banner img {
+            width: 100%;
+            border-radius: 8px 8px 0 0;
+        }
+        .header h1 {
+            color: #007bff;
+            font-size: 24px;
+        }
+        .content {
+            font-size: 16px;
+            line-height: 1.5;
+            padding: 20px;
+        }
+        .button {
+            text-align: center;
+            margin: 20px 0;
+        }
+        .button a {
+            padding: 10px 20px;
+            color: #fff;
+            background-color: #007bff;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+        .footer {
+            font-size: 14px;
+            text-align: center;
+            color: #777;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="banner">
+            <img src="https://source.unsplash.com/featured/?cinema,movie" alt="Booking Show Theater Registration">
+        </div>
+        <div class="header">
+            <h1>[[${subjectLine}]]</h1>
+        </div>
+        <div class="content">
+            <p>Hello [[${ownerName}]],</p>
+            <p>We are excited to inform you that your theater located at <strong>[[${address}]]</strong> has been successfully registered with Booking Show.</p>
+            <p>You can now start adding shows and managing bookings for your theater. We look forward to helping you provide an exceptional booking experience for your customers.</p>
+            <div class="button">
+                <a href="https://your-website.com" target="_blank">Go to Your Dashboard</a>
+            </div>
+            <p>If you have any questions or need assistance, our support team is here to help.</p>
+        </div>
+        <div class="footer">
+            &copy; 2025 Booking Show. All rights reserved.
+        </div>
+    </div>
+</body>
+</html>
