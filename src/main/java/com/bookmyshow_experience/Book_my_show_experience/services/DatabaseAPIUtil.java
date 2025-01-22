@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import com.bookmyshow_experience.Book_my_show_experience.dbResponse.AppUser;
+import com.bookmyshow_experience.Book_my_show_experience.dbResponse.Hall;
 import com.bookmyshow_experience.Book_my_show_experience.dbResponse.Theater;
 import com.bookmyshow_experience.Book_my_show_experience.requestBody.CreateUserRequestBody;
 import com.bookmyshow_experience.Book_my_show_experience.utility.DatabaseInsertionException;
@@ -73,6 +74,38 @@ public class DatabaseAPIUtil {
         } catch (Exception e) {
             throw new DatabaseInsertionException(e.getMessage());
         }
+    }
 
+    public Hall createHall(Hall hall) {
+        // 1. Create URL
+        String url = dbApiUrl + "/theater/hall/create";
+        URI finalUrl = URI.create(url);
+
+        // 2. Create request entity
+        RequestEntity<Hall> request = RequestEntity.post(url).body(hall);
+
+        // 3.Hit the request with rest template, create rest template
+        RestTemplate restTemplate = new RestTemplate();
+        try {
+            ResponseEntity<Hall> response = restTemplate.exchange(finalUrl, HttpMethod.POST, request, Hall.class);
+            return response.getBody();
+        } catch (Exception e) {
+            throw new DatabaseInsertionException(e.getMessage());
+        }
+    }
+
+    public Theater getTheaterById(UUID theaterId) {
+        String url = dbApiUrl + "/theater/" + theaterId.toString();
+        URI finalUrl = URI.create(url);
+
+        RequestEntity request = RequestEntity.get(url).build();
+
+        RestTemplate restTemplate = new RestTemplate();
+        try {
+            ResponseEntity<Theater> response = restTemplate.exchange(finalUrl, HttpMethod.GET, request, Theater.class);
+            return response.getBody();
+        } catch (Exception e) {
+            throw e;
+        }
     }
 }
