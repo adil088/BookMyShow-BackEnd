@@ -13,18 +13,21 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bookmyshow_db.Book_my_show_db.models.AppUser;
+import com.bookmyshow_db.Book_my_show_db.models.Theater;
 import com.bookmyshow_db.Book_my_show_db.repository.AppUserRepository;
+import com.bookmyshow_db.Book_my_show_db.repository.TheaterRepository;
 
 @RestController
 @RequestMapping("/api/v1/db/user")
 public class UserController {
 
     AppUserRepository appUserRepository;
+    TheaterRepository theaterRepository;
 
     // concepter dependency injection
-    @Autowired
-    UserController(AppUserRepository appUserRepository) {
+    UserController(AppUserRepository appUserRepository, TheaterRepository theaterRepository) {
         this.appUserRepository = appUserRepository;
+        this.theaterRepository = theaterRepository;
     }
 
     @PostMapping("/create")
