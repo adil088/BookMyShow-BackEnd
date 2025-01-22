@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hall Registration Confirmation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+        .email-container {
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #ffffff;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            color: #007BFF;
+        }
+        .content {
+            margin-bottom: 20px;
+        }
+        .footer {
+            font-size: 12px;
+            color: #999;
+            text-align: center;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="email-container">
+        <h1>Hall Registration Successful</h1>
+        <p>Dear <strong>[[${ownerName}]]</strong>,</p>
+        <div class="content">
+            <p>Congratulations! Your hall has been successfully registered under your theater.</p>
+            <p><strong>Theater Location:</strong> [[${theaterLocation}]]</p>
+            <p><strong>Total Hall Seats:</strong> [[${seats}]]</p>
+        </div>
+        <p>We appreciate your association with our platform and look forward to providing a great experience for your business.</p>
+        <p>Thank you for choosing Booking Show!</p>
+        <div class="footer">
+            <p>&copy; 2025 Booking Show. All rights reserved.</p>
+        </div>
+    </div>
+</body>
+</html>

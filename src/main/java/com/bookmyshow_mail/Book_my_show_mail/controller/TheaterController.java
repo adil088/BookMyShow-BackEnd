@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.bookmyshow_mail.Book_my_show_mail.requestBody.Hall;
 import com.bookmyshow_mail.Book_my_show_mail.requestBody.Theater;
 import com.bookmyshow_mail.Book_my_show_mail.service.TheaterService;
 
@@ -26,6 +27,18 @@ public class TheaterController {
 
         try {
             theaterService.sendTheaterRegistrationMail(theater);
+            return new ResponseEntity<>("Mail sent", HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>("Mail failed", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @PutMapping("/hall/create")
+    public ResponseEntity sendHallRegistrationMail(
+            @RequestBody Hall hall) {
+
+        try {
+            theaterService.sendHallRegistrationMail(hall);
             return new ResponseEntity<>("Mail sent", HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>("Mail failed", HttpStatus.INTERNAL_SERVER_ERROR);

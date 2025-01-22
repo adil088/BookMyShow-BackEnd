@@ -49,4 +49,20 @@ public class MailUtility {
         javaMailSender.send(mimeMessage);
     }
 
+    public void sendHallRegistrationMail(String ownerEmail, String ownerName, String theaterLocation,
+            String subjectLine, int seats)
+            throws Exception {
+        MimeMessage mimeMessage = javaMailSender.createMimeMessage();
+        MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage);
+        Context context = new Context();
+        context.setVariable("ownerName", ownerName);
+        context.setVariable("address", theaterLocation);
+        context.setVariable("seats", seats);
+        mimeMessageHelper.setSubject(subjectLine);
+        mimeMessageHelper.setTo(ownerEmail);
+        String htmlEmail = templateEngine.process("hall-registration-email", context);
+        mimeMessageHelper.setText(htmlEmail, true);
+        javaMailSender.send(mimeMessage);
+    }
+
 }
