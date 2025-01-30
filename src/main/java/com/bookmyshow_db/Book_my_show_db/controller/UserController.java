@@ -47,4 +47,15 @@ public class UserController {
         }
     }
 
+    @GetMapping("/email/{emailId}")
+    public ResponseEntity getUserByEmail(@PathVariable String emailId) {
+        AppUser user = appUserRepository.findByEmail(emailId);
+
+        if (user == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } else {
+            return new ResponseEntity<>(user, HttpStatus.OK);
+        }
+    }
+
 }
