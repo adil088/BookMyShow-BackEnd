@@ -1,14 +1,20 @@
 package com.bookmyshow_experience.Book_my_show_experience.services;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.util.Collections;
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.stereotype.Service;
 
 import com.bookmyshow_experience.Book_my_show_experience.dbResponse.AppUser;
 import com.bookmyshow_experience.Book_my_show_experience.dbResponse.Hall;
+import com.bookmyshow_experience.Book_my_show_experience.dbResponse.Show;
 import com.bookmyshow_experience.Book_my_show_experience.dbResponse.Theater;
-import com.bookmyshow_experience.Book_my_show_experience.enums.UserType;
+import com.bookmyshow_experience.Book_my_show_experience.requestBody.CreateShowRequestBody;
 import com.bookmyshow_experience.Book_my_show_experience.requestBody.CreateTheaterRequestBody;
+import com.bookmyshow_experience.Book_my_show_experience.utility.InvalidShowTiming;
 import com.bookmyshow_experience.Book_my_show_experience.utility.InvalidUserException;
 import com.bookmyshow_experience.Book_my_show_experience.utility.MailAPIUtil;
 import com.bookmyshow_experience.Book_my_show_experience.utility.TheaterNotFoundException;
@@ -25,6 +31,15 @@ public class TheaterService {
         this.databaseAPIUtil = databaseAPIUtil;
         this.entityMapper = entityMapper;
         this.mailAPIUtil = mailAPIUtil;
+    }
+
+    public boolean isOverLapping(List<Show> shows, Show currentShow) {
+        for (Show show : shows) {
+            if (currentShow.getStartTime() <= show.getEndTime()) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public Theater createTheater(CreateTheaterRequestBody createTheaterRequestBody, UUID ownerUserId) {
@@ -101,6 +116,59 @@ public class TheaterService {
             throw e;
         }
 
+    }
+
+    // create show in hall in theater
+
+    public Show createShow(UUID userId, UUID theaterId, UUID hallId,
+            CreateShowRequestBody show) {
+        AppUser user = databaseAPIUtil.getUserById(userId);
+
+        if (user == null) {
+            throw new InvalidUserException(String.format("USER with id %s not found!", userId.toString()));
+        }
+
+        if (!user.getUserType().equals("OWNER")) {
+            throw new UnauthorizedException(
+                    String.format("User with id %s does not have permission to create halls", userId.toString()));
+        }
+        Theater theater = databaseAPIUtil.getTheaterById(theaterId);
+        if (theater == null) {
+            throw new TheaterNotFoundException(
+                    String.format("Theater with id %s does not exist", theaterId.toString()));
+        }
+        if (!theater.getOwner().getId().equals(userId)) {
+            throw new UnauthorizedException(
+                    String.format("User with id %s does not have access to create hall in theater with id %s",
+                            userId.toString(), theaterId.toString()));
+        }
+
+        Hall hall = databaseAPIUtil.getHallById(hallId);
+
+        LocalDateTime startTime = show.getStartTime();
+        LocalDateTime endTime = show.getEndTime();
+
+        LocalDateTime fromTime = LocalDateTime.of(2010, 12, 1, 7, 00, 00);
+
+        Long startInSeconds = Duration.between(fromTime, startTime).toSeconds();
+        Long endInSeconds = Duration.between(fromTime, endTime).toSeconds();
+
+        // call database api util, it will create show for us
+        List<Show> shows = databaseAPIUtil.getAllShows();
+        Collections.sort(shows);
+        Show showRB = new Show();
+        showRB.setHall(hall);
+        showRB.setStartTime(startInSeconds);
+        showRB.setEndTime(endInSeconds);
+        showRB.setMovieName(show.getMovieName());
+        showRB.setTicketsSold(20);
+        System.out.println(showRB);
+        boolean result = isOverLapping(shows, showRB);
+        if (result) {
+            throw new InvalidShowTiming("Show timing is overlapping");
+        }
+
+        return databaseAPIUtil.createShow(showRB);
     }
 
 }

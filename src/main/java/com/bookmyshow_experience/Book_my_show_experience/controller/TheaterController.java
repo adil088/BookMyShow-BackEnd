@@ -10,8 +10,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.bookmyshow_experience.Book_my_show_experience.dbResponse.Show;
+import com.bookmyshow_experience.Book_my_show_experience.requestBody.CreateShowRequestBody;
 import com.bookmyshow_experience.Book_my_show_experience.requestBody.CreateTheaterRequestBody;
 import com.bookmyshow_experience.Book_my_show_experience.services.TheaterService;
+import com.bookmyshow_experience.Book_my_show_experience.utility.InvalidShowTiming;
 import com.bookmyshow_experience.Book_my_show_experience.utility.InvalidUserException;
 import com.bookmyshow_experience.Book_my_show_experience.utility.TheaterNotFoundException;
 import com.bookmyshow_experience.Book_my_show_experience.utility.UnauthorizedException;
@@ -52,6 +55,19 @@ public class TheaterController {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.UNAUTHORIZED);
         } catch (TheaterNotFoundException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @PostMapping("/show/create")
+    public ResponseEntity createShow(@RequestParam UUID userId, @RequestParam UUID theaterId, @RequestParam UUID hallId,
+            @RequestBody CreateShowRequestBody createShowRequestBody) {
+        try {
+            Show show1 = theaterService.createShow(userId, theaterId, hallId, createShowRequestBody);
+            return new ResponseEntity<>(show1, HttpStatus.CREATED);
+        } catch (InvalidShowTiming invalidShowTiming) {
+            return new ResponseEntity<>(invalidShowTiming.getMessage(), HttpStatus.BAD_REQUEST);
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }

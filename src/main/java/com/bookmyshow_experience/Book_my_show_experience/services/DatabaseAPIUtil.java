@@ -1,13 +1,14 @@
 package com.bookmyshow_experience.Book_my_show_experience.services;
 
+import java.lang.reflect.Type;
 import java.net.URI;
+import java.util.List;
 import java.util.UUID;
 
+import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -15,18 +16,23 @@ import org.springframework.web.client.RestTemplate;
 
 import com.bookmyshow_experience.Book_my_show_experience.dbResponse.AppUser;
 import com.bookmyshow_experience.Book_my_show_experience.dbResponse.Hall;
+import com.bookmyshow_experience.Book_my_show_experience.dbResponse.Show;
 import com.bookmyshow_experience.Book_my_show_experience.dbResponse.Theater;
 import com.bookmyshow_experience.Book_my_show_experience.requestBody.CreateUserRequestBody;
+import com.bookmyshow_experience.Book_my_show_experience.utility.ApiUtil;
 import com.bookmyshow_experience.Book_my_show_experience.utility.DatabaseInsertionException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Service
-public class DatabaseAPIUtil {
+public class DatabaseAPIUtil extends ApiUtil {
 
     @Value("${db.api.url}")
     String dbApiUrl;
 
     public void createUser(CreateUserRequestBody createUserRequestBody) {
         // calling db api to save user
+        System.out.println("Calling db api to create user");
         String finalUrl = dbApiUrl + "/user/create";
         URI url = URI.create(finalUrl);
 
@@ -122,5 +128,30 @@ public class DatabaseAPIUtil {
         } catch (Exception e) {
             throw e;
         }
+    }
+
+    public Show createShow(Show show) {
+        Object resp = makePostCall(dbApiUrl, show, "/show/create");
+        ModelMapper mapper = new ModelMapper();
+        Show showResp = mapper.map(resp, Show.class);
+        return showResp;
+    }
+
+    public Hall getHallById(UUID hallId) {
+        String endPoint = "/hall/" + hallId.toString();
+        Object resp = makeGetCall(dbApiUrl, endPoint);
+        ModelMapper mapper = new ModelMapper();
+        Hall hall = mapper.map(resp, Hall.class);
+        return hall;
+    }
+
+    public List<Show> getAllShows() {
+        String endPoint = "/show/all";
+        ModelMapper mapper = new ModelMapper();
+        Type listType = new TypeToken<List<Show>>() {
+        }.getType();
+        Object resp = makeGetCall(dbApiUrl, endPoint);
+        List<Show> shows = mapper.map(resp, listType);
+        return shows;
     }
 }

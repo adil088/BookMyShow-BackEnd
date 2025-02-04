@@ -32,6 +32,7 @@ public class UserController {
             userService.createUser(createUserRequestBody);
             String credentials = createUserRequestBody.getEmail() + ":" + createUserRequestBody.getPassword();
             String token = jwtUtil.generateToken(credentials);
+            System.out.println("User created");
             return new ResponseEntity<>(token, HttpStatus.CREATED);
         } catch (DatabaseInsertionException databaseInsertionException) {
             return new ResponseEntity<>(databaseInsertionException.getMessage(),
