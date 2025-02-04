@@ -2,7 +2,6 @@ package com.bookmyshow_db.Book_my_show_db.controller;
 
 import java.util.UUID;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bookmyshow_db.Book_my_show_db.models.AppUser;
-import com.bookmyshow_db.Book_my_show_db.models.Theater;
 import com.bookmyshow_db.Book_my_show_db.repository.AppUserRepository;
 import com.bookmyshow_db.Book_my_show_db.repository.TheaterRepository;
 
@@ -31,13 +29,15 @@ public class UserController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity createUser(@RequestBody AppUser user) {
+    public ResponseEntity<String> createUser(@RequestBody AppUser user) {
+        System.out.println("Saving user....");
         appUserRepository.save(user);
-        return new ResponseEntity("User got saved successfully.", HttpStatus.CREATED);
+        System.out.println("User saved successfully");
+        return new ResponseEntity<String>("User got saved successfully.", HttpStatus.CREATED);
     }
 
     @GetMapping("/{userId}")
-    public ResponseEntity getUserById(@PathVariable UUID userId) {
+    public ResponseEntity<AppUser> getUserById(@PathVariable UUID userId) {
         AppUser user = appUserRepository.findById(userId).orElse(null);
 
         if (user == null) {
@@ -48,7 +48,7 @@ public class UserController {
     }
 
     @GetMapping("/email/{emailId}")
-    public ResponseEntity getUserByEmail(@PathVariable String emailId) {
+    public ResponseEntity<AppUser> getUserByEmail(@PathVariable String emailId) {
         AppUser user = appUserRepository.findByEmail(emailId);
 
         if (user == null) {

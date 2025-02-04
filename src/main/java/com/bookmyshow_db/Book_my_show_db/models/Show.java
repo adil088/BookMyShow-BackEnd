@@ -24,8 +24,9 @@ public class Show {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     UUID id;
-    Double startTime;
-    Double endTime;
+    Long startTime;
+    Long endTime;
+    String movieName;
     @ManyToOne
     Hall hall;
     int ticketsSold;
