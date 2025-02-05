@@ -8,7 +8,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -17,19 +16,16 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-@Data
 @Entity
-public class Show {
-
+public class Booking {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     UUID id;
-    Long startTime;
-    Long endTime;
-    String movieName;
-    int ticketPrice;
-    int totalTickets;
     @ManyToOne
-    Hall hall;
-    int ticketsSold;
+    AppUser user;
+    int totalSeats;
+    @ManyToOne
+    Show show;
+    String paymentMethod;
+    int totalAmount;
 }
