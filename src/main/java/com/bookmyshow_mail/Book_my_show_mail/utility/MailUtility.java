@@ -7,6 +7,8 @@ import org.springframework.stereotype.Service;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
+import com.bookmyshow_mail.Book_my_show_mail.requestBody.Booking;
+
 import jakarta.mail.internet.MimeMessage;
 
 @Service
@@ -61,6 +63,27 @@ public class MailUtility {
         mimeMessageHelper.setSubject(subjectLine);
         mimeMessageHelper.setTo(ownerEmail);
         String htmlEmail = templateEngine.process("hall-registration-email", context);
+        mimeMessageHelper.setText(htmlEmail, true);
+        javaMailSender.send(mimeMessage);
+    }
+
+    public void sendBookingMail(Booking booking)
+            throws Exception {
+        MimeMessage mimeMessage = javaMailSender.createMimeMessage();
+        MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage);
+        Context context = new Context();
+        context.setVariable("userName", booking.getUserName());
+        context.setVariable("movieName", booking.getMovieName());
+        context.setVariable("theaterName", booking.getTheaterName());
+        context.setVariable("hallName", booking.getHallName());
+        context.setVariable("theaterAddress", booking.getTheaterAddress());
+        context.setVariable("totalTickets", booking.getTotalTickets());
+        context.setVariable("totalAmountPaid", booking.getTotalAmountPaid());
+        context.setVariable("paymentMethod", booking.getPaymentMethod());
+        mimeMessageHelper
+                .setSubject("Booking confirmation for " + booking.getUserName() + " at " + booking.getTheaterName());
+        mimeMessageHelper.setTo(booking.getUserEmail());
+        String htmlEmail = templateEngine.process("booking-email", context);
         mimeMessageHelper.setText(htmlEmail, true);
         javaMailSender.send(mimeMessage);
     }

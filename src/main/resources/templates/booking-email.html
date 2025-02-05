@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Booking Confirmation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 600px;
+            background: #ffffff;
+            padding: 20px;
+            margin: 20px auto;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h2 {
+            color: #333;
+            text-align: center;
+        }
+        p {
+            font-size: 16px;
+            color: #555;
+            line-height: 1.5;
+        }
+        .details {
+            margin: 20px 0;
+            padding: 10px;
+            background: #f9f9f9;
+            border-radius: 5px;
+        }
+        .details p {
+            margin: 5px 0;
+        }
+        .footer {
+            text-align: center;
+            font-size: 14px;
+            color: #777;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2>🎟️ Booking Confirmation 🎟️</h2>
+        <p>Dear <strong>[[${userName}]]</strong>,</p>
+        <p>Thank you for booking your movie ticket with us! Here are your booking details:</p>
+
+        <div class="details">
+            <p><strong>Movie Name:</strong> [[${movieName}]]</p>
+            <p><strong>Theater:</strong> [[${theaterName}]]</p>
+            <p><strong>Hall:</strong> [[${hallName}]]</p>
+            <p><strong>Theater Address:</strong> [[${theaterAddress}]]</p>
+            <p><strong>Total Tickets:</strong> [[${totalTickets}]]</p>
+            <p><strong>Total Amount Paid:</strong> ₹[[${totalAmountPaid}]]</p>
+            <p><strong>Payment Method:</strong> [[${paymentMethod}]]</p>
+        </div>
+
+        <p>We look forward to welcoming you to our theater. Enjoy your movie! 🍿</p>
+
+        <div class="footer">
+            <p>If you have any questions, contact us at <a href="mailto:support@bookingapp.com">support@bookingapp.com</a>.</p>
+            <p>Happy Watching! 🎬</p>
+        </div>
+    </div>
+
+</body>
+</html>
