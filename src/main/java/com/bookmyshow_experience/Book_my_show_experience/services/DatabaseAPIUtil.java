@@ -14,15 +14,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import com.bookmyshow_experience.Book_my_show_experience.Errors.DatabaseInsertionException;
 import com.bookmyshow_experience.Book_my_show_experience.dbResponse.AppUser;
+import com.bookmyshow_experience.Book_my_show_experience.dbResponse.Booking;
 import com.bookmyshow_experience.Book_my_show_experience.dbResponse.Hall;
 import com.bookmyshow_experience.Book_my_show_experience.dbResponse.Show;
 import com.bookmyshow_experience.Book_my_show_experience.dbResponse.Theater;
 import com.bookmyshow_experience.Book_my_show_experience.requestBody.CreateUserRequestBody;
 import com.bookmyshow_experience.Book_my_show_experience.utility.ApiUtil;
-import com.bookmyshow_experience.Book_my_show_experience.utility.DatabaseInsertionException;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Service
 public class DatabaseAPIUtil extends ApiUtil {
@@ -154,4 +153,40 @@ public class DatabaseAPIUtil extends ApiUtil {
         List<Show> shows = mapper.map(resp, listType);
         return shows;
     }
+
+    public Show getShowById(UUID showId) {
+        String url = dbApiUrl + "/show/" + showId.toString();
+        URI finalUrl = URI.create(url);
+
+        RequestEntity request = RequestEntity.get(url).build();
+
+        RestTemplate restTemplate = new RestTemplate();
+        try {
+            ResponseEntity<Show> response = restTemplate.exchange(finalUrl, HttpMethod.GET, request, Show.class);
+            return response.getBody();
+        } catch (Exception e) {
+            throw e;
+        }
+    }
+
+    public void createBooking(Booking booking) {
+        String endPoint = "/booking/create";
+        makePostCall(dbApiUrl, booking, endPoint);
+    }
+
+    // public Booking getBookingById(UUID bookingId) {
+    // String url = dbApiUrl + "/booking/" + bookingId.toString();
+    // URI finalUrl = URI.create(url);
+
+    // RequestEntity request = RequestEntity.get(url).build();
+
+    // RestTemplate restTemplate = new RestTemplate();
+    // try {
+    // ResponseEntity<Booking> response = restTemplate.exchange(finalUrl,
+    // HttpMethod.GET, request, Booking.class);
+    // return response.getBody();
+    // } catch (Exception e) {
+    // throw e;
+    // }
+    // }
 }

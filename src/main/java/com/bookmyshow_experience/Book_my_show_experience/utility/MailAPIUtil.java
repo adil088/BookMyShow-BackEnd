@@ -9,11 +9,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import com.bookmyshow_experience.Book_my_show_experience.dbResponse.Booking;
 import com.bookmyshow_experience.Book_my_show_experience.dbResponse.Hall;
 import com.bookmyshow_experience.Book_my_show_experience.dbResponse.Theater;
+import com.bookmyshow_experience.Book_my_show_experience.requestBody.BookingRBforEmail;
 
 @Service
-public class MailAPIUtil {
+public class MailAPIUtil extends ApiUtil {
 
     @Value("${mail.api.url}")
     String mailApiUrl;
@@ -60,5 +62,19 @@ public class MailAPIUtil {
         } catch (Exception e) {
             throw e;
         }
+    }
+
+    public void sendBookingMail(Booking booking) {
+        BookingRBforEmail bookingRBforEmail = new BookingRBforEmail();
+        bookingRBforEmail.setHallName("Hall1");
+        bookingRBforEmail.setPaymentMethod(booking.getPaymentMethod());
+        bookingRBforEmail.setTotalTickets(booking.getTotalSeats());
+        bookingRBforEmail.setUserEmail(booking.getUser().getEmail());
+        bookingRBforEmail.setTheaterName("Theater1");
+        bookingRBforEmail.setTotalAmountPaid(booking.getTotalAmount());
+        bookingRBforEmail.setTheaterAddress(booking.getShow().getHall().getTheater().getAddress());
+        bookingRBforEmail.setUserName(booking.getUser().getEmail());
+
+        makePutCall(mailApiUrl, bookingRBforEmail, "/booking/create");
     }
 }

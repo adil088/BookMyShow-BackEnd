@@ -19,4 +19,7 @@ public class CreateShowRequestBody {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
     LocalDateTime endTime;
     String movieName;
+    int ticketPrice;
+    int totalTickets;
+    int ticketsSold;
 }

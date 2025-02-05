@@ -8,17 +8,18 @@ import java.util.UUID;
 
 import org.springframework.stereotype.Service;
 
+import com.bookmyshow_experience.Book_my_show_experience.Errors.InvalidShowTiming;
+import com.bookmyshow_experience.Book_my_show_experience.Errors.InvalidUserException;
+import com.bookmyshow_experience.Book_my_show_experience.Errors.TheaterNotFoundException;
+import com.bookmyshow_experience.Book_my_show_experience.Errors.UnauthorizedException;
 import com.bookmyshow_experience.Book_my_show_experience.dbResponse.AppUser;
+import com.bookmyshow_experience.Book_my_show_experience.dbResponse.Booking;
 import com.bookmyshow_experience.Book_my_show_experience.dbResponse.Hall;
 import com.bookmyshow_experience.Book_my_show_experience.dbResponse.Show;
 import com.bookmyshow_experience.Book_my_show_experience.dbResponse.Theater;
 import com.bookmyshow_experience.Book_my_show_experience.requestBody.CreateShowRequestBody;
 import com.bookmyshow_experience.Book_my_show_experience.requestBody.CreateTheaterRequestBody;
-import com.bookmyshow_experience.Book_my_show_experience.utility.InvalidShowTiming;
-import com.bookmyshow_experience.Book_my_show_experience.utility.InvalidUserException;
 import com.bookmyshow_experience.Book_my_show_experience.utility.MailAPIUtil;
-import com.bookmyshow_experience.Book_my_show_experience.utility.TheaterNotFoundException;
-import com.bookmyshow_experience.Book_my_show_experience.utility.UnauthorizedException;
 
 @Service
 public class TheaterService {
@@ -157,12 +158,17 @@ public class TheaterService {
         List<Show> shows = databaseAPIUtil.getAllShows();
         Collections.sort(shows);
         Show showRB = new Show();
+
+        // Booking booking = databaseAPIUtil.getBookingById(bookingId);
+
         showRB.setHall(hall);
         showRB.setStartTime(startInSeconds);
         showRB.setEndTime(endInSeconds);
         showRB.setMovieName(show.getMovieName());
-        showRB.setTicketsSold(20);
-        System.out.println(showRB);
+        showRB.setTicketPrice(show.getTicketPrice());
+        showRB.setTotalTickets(show.getTotalTickets());
+        showRB.setTicketsSold(0);
+
         boolean result = isOverLapping(shows, showRB);
         if (result) {
             throw new InvalidShowTiming("Show timing is overlapping");

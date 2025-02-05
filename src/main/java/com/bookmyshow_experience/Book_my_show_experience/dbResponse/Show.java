@@ -19,6 +19,8 @@ public class Show implements Comparable<Show> {
     Long startTime;
     Long endTime;
     String movieName;
+    int ticketPrice;
+    int totalTickets;
     Hall hall;
     int ticketsSold;
 

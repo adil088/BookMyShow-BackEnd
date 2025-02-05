@@ -10,14 +10,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.bookmyshow_experience.Book_my_show_experience.Errors.InvalidShowTiming;
+import com.bookmyshow_experience.Book_my_show_experience.Errors.InvalidUserException;
+import com.bookmyshow_experience.Book_my_show_experience.Errors.TheaterNotFoundException;
+import com.bookmyshow_experience.Book_my_show_experience.Errors.UnauthorizedException;
 import com.bookmyshow_experience.Book_my_show_experience.dbResponse.Show;
 import com.bookmyshow_experience.Book_my_show_experience.requestBody.CreateShowRequestBody;
 import com.bookmyshow_experience.Book_my_show_experience.requestBody.CreateTheaterRequestBody;
 import com.bookmyshow_experience.Book_my_show_experience.services.TheaterService;
-import com.bookmyshow_experience.Book_my_show_experience.utility.InvalidShowTiming;
-import com.bookmyshow_experience.Book_my_show_experience.utility.InvalidUserException;
-import com.bookmyshow_experience.Book_my_show_experience.utility.TheaterNotFoundException;
-import com.bookmyshow_experience.Book_my_show_experience.utility.UnauthorizedException;
 
 @RestController
 @RequestMapping("/api/v1/exp/theater")
