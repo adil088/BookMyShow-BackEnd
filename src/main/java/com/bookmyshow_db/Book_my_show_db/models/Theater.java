@@ -26,7 +26,8 @@ public class Theater {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    UUID TheaterId;
+    UUID theaterId;
+    String theaterName;
     @ManyToOne
     AppUser owner;
     String address;
