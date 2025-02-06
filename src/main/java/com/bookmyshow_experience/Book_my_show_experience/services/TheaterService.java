@@ -13,7 +13,6 @@ import com.bookmyshow_experience.Book_my_show_experience.Errors.InvalidUserExcep
 import com.bookmyshow_experience.Book_my_show_experience.Errors.TheaterNotFoundException;
 import com.bookmyshow_experience.Book_my_show_experience.Errors.UnauthorizedException;
 import com.bookmyshow_experience.Book_my_show_experience.dbResponse.AppUser;
-import com.bookmyshow_experience.Book_my_show_experience.dbResponse.Booking;
 import com.bookmyshow_experience.Book_my_show_experience.dbResponse.Hall;
 import com.bookmyshow_experience.Book_my_show_experience.dbResponse.Show;
 import com.bookmyshow_experience.Book_my_show_experience.dbResponse.Theater;

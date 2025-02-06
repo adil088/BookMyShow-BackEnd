@@ -13,6 +13,7 @@ import lombok.Setter;
 @AllArgsConstructor
 public class CreateTheaterRequestBody {
 
+    String theaterName;
     Long helpLineNumber;
     String address;
 

@@ -12,6 +12,7 @@ public class EntityMapper {
     public Theater convertTheaterRBToTheaterModel(CreateTheaterRequestBody createTheaterRequestBody, AppUser owner) {
 
         Theater theater = Theater.builder()
+                .theaterName(createTheaterRequestBody.getTheaterName())
                 .address(createTheaterRequestBody.getAddress())
                 .theaterHelpline(createTheaterRequestBody.getHelpLineNumber())
                 .owner(owner)
