@@ -37,12 +37,14 @@ public class MailUtility {
 
     }
 
-    public void sendTheaterRegistrationMail(String toEmail, String ownerName, String address, String subjectLine)
+    public void sendTheaterRegistrationMail(String toEmail, String ownerName, String theaterName, String address,
+            String subjectLine)
             throws Exception {
         MimeMessage mimeMessage = javaMailSender.createMimeMessage();
         MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage);
         Context context = new Context();
         context.setVariable("ownerName", ownerName);
+        context.setVariable("theaterName", theaterName);
         context.setVariable("address", address);
         mimeMessageHelper.setSubject(subjectLine);
         mimeMessageHelper.setTo(toEmail);

@@ -16,40 +16,9 @@ import lombok.Setter;
 public class Theater {
 
     UUID TheaterId;
+    String theaterName;
     AppUser owner;
     String address;
     Long theaterHelpline;
-
-    public UUID getTheaterId() {
-        return TheaterId;
-    }
-
-    public void setTheaterId(UUID theaterId) {
-        TheaterId = theaterId;
-    }
-
-    public AppUser getOwner() {
-        return owner;
-    }
-
-    public void setOwner(AppUser owner) {
-        this.owner = owner;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public Long getTheaterHelpline() {
-        return theaterHelpline;
-    }
-
-    public void setTheaterHelpline(Long theaterHelpline) {
-        this.theaterHelpline = theaterHelpline;
-    }
 
 }

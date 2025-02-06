@@ -17,10 +17,11 @@ public class TheaterService {
     public void sendTheaterRegistrationMail(Theater theater) throws Exception {
         String toEmail = theater.getOwner().getEmail();
         String ownerName = theater.getOwner().getName();
+        String theaterName = theater.getTheaterName();
         String address = theater.getAddress();
         String subjectLine = "Theater Registration Successful!";
 
-        mailUtility.sendTheaterRegistrationMail(toEmail, ownerName, address, subjectLine);
+        mailUtility.sendTheaterRegistrationMail(toEmail, ownerName, theaterName, address, subjectLine);
     }
 
     public void sendHallRegistrationMail(Hall hall) throws Exception {
