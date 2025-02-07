@@ -14,7 +14,6 @@ import lombok.Setter;
 @Getter
 @Setter
 public class CreateBookingRequestBody {
-    UUID userId;
     UUID showId;
     int totalSeats;
     PaymentMethod paymentMode;

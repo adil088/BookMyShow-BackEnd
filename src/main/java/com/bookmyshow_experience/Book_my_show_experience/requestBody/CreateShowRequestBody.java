@@ -20,6 +20,6 @@ public class CreateShowRequestBody {
     LocalDateTime endTime;
     String movieName;
     int ticketPrice;
-    int totalTickets;
+    // int totalTickets;
     int ticketsSold;
 }

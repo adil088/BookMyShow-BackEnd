@@ -15,6 +15,7 @@ import com.bookmyshow_experience.Book_my_show_experience.Errors.InvalidUserExcep
 import com.bookmyshow_experience.Book_my_show_experience.Errors.TheaterNotFoundException;
 import com.bookmyshow_experience.Book_my_show_experience.Errors.UnauthorizedException;
 import com.bookmyshow_experience.Book_my_show_experience.dbResponse.Show;
+import com.bookmyshow_experience.Book_my_show_experience.requestBody.CreateHallRequestBody;
 import com.bookmyshow_experience.Book_my_show_experience.requestBody.CreateShowRequestBody;
 import com.bookmyshow_experience.Book_my_show_experience.requestBody.CreateTheaterRequestBody;
 import com.bookmyshow_experience.Book_my_show_experience.services.TheaterService;
@@ -44,10 +45,10 @@ public class TheaterController {
 
     @PostMapping("/hall/create")
     public ResponseEntity<String> createHall(@RequestParam UUID theaterId, @RequestParam UUID ownerId,
-            @RequestParam int hallSeats) {
+            @RequestBody CreateHallRequestBody createHallRequestBody) {
         // call service layer
         try {
-            theaterService.createHallForTheater(theaterId, ownerId, hallSeats);
+            theaterService.createHallForTheater(theaterId, ownerId, createHallRequestBody);
             return new ResponseEntity<>("Hall registered successfully", HttpStatus.CREATED);
         } catch (InvalidUserException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);

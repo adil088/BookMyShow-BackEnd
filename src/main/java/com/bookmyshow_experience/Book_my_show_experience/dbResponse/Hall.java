@@ -8,16 +8,18 @@ import lombok.Builder;
 public class Hall {
 
     UUID id;
-    Theater theater;
+    String hallName;
     int seats;
+    Theater theater;
 
     public Hall() {
     }
 
-    public Hall(UUID id, Theater theater, int seats) {
+    public Hall(UUID id, String hallName, int seats, Theater theater) {
         this.id = id;
-        this.theater = theater;
+        this.hallName = hallName;
         this.seats = seats;
+        this.theater = theater;
     }
 
     public UUID getId() {
@@ -28,12 +30,12 @@ public class Hall {
         this.id = id;
     }
 
-    public Theater getTheater() {
-        return theater;
+    public String getHallName() {
+        return hallName;
     }
 
-    public void setTheater(Theater theater) {
-        this.theater = theater;
+    public void setHallName(String hallName) {
+        this.hallName = hallName;
     }
 
     public int getSeats() {
@@ -42,6 +44,14 @@ public class Hall {
 
     public void setSeats(int seats) {
         this.seats = seats;
+    }
+
+    public Theater getTheater() {
+        return theater;
+    }
+
+    public void setTheater(Theater theater) {
+        this.theater = theater;
     }
 
 }

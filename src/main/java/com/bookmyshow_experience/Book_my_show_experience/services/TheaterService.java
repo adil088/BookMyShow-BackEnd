@@ -16,6 +16,7 @@ import com.bookmyshow_experience.Book_my_show_experience.dbResponse.AppUser;
 import com.bookmyshow_experience.Book_my_show_experience.dbResponse.Hall;
 import com.bookmyshow_experience.Book_my_show_experience.dbResponse.Show;
 import com.bookmyshow_experience.Book_my_show_experience.dbResponse.Theater;
+import com.bookmyshow_experience.Book_my_show_experience.requestBody.CreateHallRequestBody;
 import com.bookmyshow_experience.Book_my_show_experience.requestBody.CreateShowRequestBody;
 import com.bookmyshow_experience.Book_my_show_experience.requestBody.CreateTheaterRequestBody;
 import com.bookmyshow_experience.Book_my_show_experience.utility.MailAPIUtil;
@@ -67,7 +68,7 @@ public class TheaterService {
         return respTheater;
     }
 
-    public void createHallForTheater(UUID theaterId, UUID ownerId, int hallSeats) {
+    public void createHallForTheater(UUID theaterId, UUID ownerId, CreateHallRequestBody createHallRequestBody) {
         // Verify if the user exists or not? and check if he is the owner
         AppUser user = databaseAPIUtil.getUserById(ownerId);
 
@@ -99,8 +100,9 @@ public class TheaterService {
                         String.format("User with id %s does not have access to create hall in theater with id %s",
                                 ownerId.toString(), theaterId.toString()));
             }
+            hall.setHallName(createHallRequestBody.getHallName());
+            hall.setSeats(createHallRequestBody.getSeats());
             hall.setTheater(theater);
-            hall.setSeats(hallSeats);
             hall = databaseAPIUtil.createHall(hall);
         } catch (Exception e) {
             throw e;
@@ -165,7 +167,7 @@ public class TheaterService {
         showRB.setEndTime(endInSeconds);
         showRB.setMovieName(show.getMovieName());
         showRB.setTicketPrice(show.getTicketPrice());
-        showRB.setTotalTickets(show.getTotalTickets());
+        showRB.setTotalTickets(hall.getSeats());
         showRB.setTicketsSold(0);
 
         boolean result = isOverLapping(shows, showRB);

@@ -4,6 +4,8 @@ import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.bookmyshow_experience.Book_my_show_experience.Errors.NotEnoughSeatsException;
 import com.bookmyshow_experience.Book_my_show_experience.dbResponse.AppUser;
@@ -23,8 +25,8 @@ public class BookingService {
         this.mailAPIUtil = mailAPIUtil;
     }
 
-    public Booking bookTicket(CreateBookingRequestBody bookingDetails) {
-        UUID userId = bookingDetails.getUserId();
+    public Booking bookTicket(@RequestParam UUID userId, @RequestBody CreateBookingRequestBody bookingDetails) {
+
         UUID showId = bookingDetails.getShowId();
         int ticketCount = bookingDetails.getTotalSeats();
         String paymentMode = bookingDetails.getPaymentMode().toString();
@@ -37,25 +39,31 @@ public class BookingService {
             System.out.println("Show not found");
         }
 
+        if (user == null) {
+            System.out.println("User not found");
+        }
+
         int leftTickets = show.getTotalTickets() - ticketCount;
 
-        if (leftTickets < 0) {
+        if (leftTickets < 0 || ticketCount > leftTickets) {
             throw new NotEnoughSeatsException("No seats available");
         }
 
-        show.setTotalTickets(leftTickets);
+        show.setTotalTickets(show.getTotalTickets() - ticketCount);
         show.setTicketsSold(show.getTicketsSold() + ticketCount);
 
         Booking booking = new Booking();
 
         booking.setShow(show);
         booking.setUser(user);
+        booking.setMovieName(show.getMovieName());
         booking.setPaymentMethod(paymentMode);
         booking.setTotalAmount(ticketCount * show.getTicketPrice());
         booking.setTotalSeats(ticketCount);
 
         // Database api make post call
         databaseAPIUtil.createBooking(booking);
+        databaseAPIUtil.createShow(show);
         mailAPIUtil.sendBookingMail(booking);
         return booking;
 

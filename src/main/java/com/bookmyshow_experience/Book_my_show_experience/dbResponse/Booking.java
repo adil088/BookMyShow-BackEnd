@@ -14,6 +14,7 @@ import lombok.Setter;
 public class Booking {
     UUID id;
     AppUser user;
+    String movieName;
     int totalSeats;
     Show show;
     String paymentMethod;
