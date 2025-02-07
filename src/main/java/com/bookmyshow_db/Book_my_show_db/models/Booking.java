@@ -23,6 +23,7 @@ public class Booking {
     UUID id;
     @ManyToOne
     AppUser user;
+    String movieName;
     int totalSeats;
     @ManyToOne
     Show show;

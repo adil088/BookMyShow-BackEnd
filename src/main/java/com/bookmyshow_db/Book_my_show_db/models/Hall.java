@@ -24,6 +24,7 @@ public class Hall {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     UUID id;
+    String hallName;
     @ManyToOne
     Theater theater;
     int seats;

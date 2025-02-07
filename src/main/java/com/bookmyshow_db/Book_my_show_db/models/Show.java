@@ -2,6 +2,7 @@ package com.bookmyshow_db.Book_my_show_db.models;
 
 import java.util.UUID;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -28,6 +29,7 @@ public class Show {
     Long endTime;
     String movieName;
     int ticketPrice;
+    @Column(name = "ticketsLeft")
     int totalTickets;
     @ManyToOne
     Hall hall;
