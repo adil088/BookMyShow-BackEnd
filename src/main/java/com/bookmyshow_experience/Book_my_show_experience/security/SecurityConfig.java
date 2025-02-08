@@ -1,40 +1,57 @@
-// package com.bookmyshow_experience.Book_my_show_experience.security;
+package com.bookmyshow_experience.Book_my_show_experience.security;
 
-// import org.springframework.beans.factory.annotation.Autowired;
-// import org.springframework.context.annotation.Bean;
-// import org.springframework.context.annotation.Configuration;
-// import
-// org.springframework.security.config.annotation.web.builders.HttpSecurity;
-// import org.springframework.security.config.http.SessionCreationPolicy;
-// import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-// import org.springframework.security.crypto.password.PasswordEncoder;
-// import org.springframework.security.web.SecurityFilterChain;
-// import
-// org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-// @Configuration
-// public class SecurityConfig {
+@Configuration
+public class SecurityConfig {
 
-// @Bean
-// public PasswordEncoder passwordEncoder() {
-// return new BCryptPasswordEncoder();
-// }
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
 
-// @Autowired
-// private JwtFilter jwtFilter;
+    @Autowired
+    private JwtFilter jwtFilter;
 
-// @Bean
-// public SecurityFilterChain securityFilterChain(HttpSecurity http) throws
-// Exception {
-// System.out.println("Inside filter chain");
-// return http.csrf(csrf -> csrf.disable())
-// .authorizeHttpRequests(
-// auth -> auth.requestMatchers("/api/v1/exp/user/login",
-// "/api/v1/exp/user/register").permitAll()
-// .anyRequest().authenticated())
-// .sessionManagement(sess ->
-// sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-// .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
-// .build();
-// }
-// }
+    @Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        System.out.println("Inside filter chain");
+        return http.csrf(csrf -> csrf.disable())
+                .authorizeHttpRequests(
+                        auth -> auth.requestMatchers("/api/v1/exp/user/login",
+                                "/api/v1/exp/user/signup").permitAll()
+                                .anyRequest().authenticated())
+                .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
+                .build();
+    }
+
+    // @Bean
+    // public SecurityFilterChain securityFilterChain(HttpSecurity http) throws
+    // Exception {
+    // return http
+    // .csrf(csrf -> csrf.disable()) // Disables CSRF protection
+    // .authorizeHttpRequests(auth -> auth
+    // .requestMatchers("/api/v1/exp/user/login",
+    // "/api/v1/exp/user/signup").permitAll()
+    // .anyRequest().authenticated())
+    // .build();
+    // }
+
+    public AuthenticationProvider authenticationProvider() {
+        DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
+        daoAuthenticationProvider.setPasswordEncoder(passwordEncoder());
+        return daoAuthenticationProvider;
+    }
+
+}

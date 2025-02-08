@@ -56,6 +56,7 @@ public class JwtUtil {
                 return false;
             }
 
+            System.out.println(user.getPassword());
             if (!user.getPassword().equals(password))
                 return false;
             return true;

@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import com.bookmyshow_experience.Book_my_show_experience.Errors.DatabaseInsertionException;
+import com.bookmyshow_experience.Book_my_show_experience.Errors.InvalidUserException;
 import com.bookmyshow_experience.Book_my_show_experience.dbResponse.AppUser;
 import com.bookmyshow_experience.Book_my_show_experience.dbResponse.Booking;
 import com.bookmyshow_experience.Book_my_show_experience.dbResponse.Hall;
@@ -125,7 +126,7 @@ public class DatabaseAPIUtil extends ApiUtil {
             ResponseEntity<AppUser> response = restTemplate.exchange(finalUrl, HttpMethod.GET, request, AppUser.class);
             return response.getBody();
         } catch (Exception e) {
-            throw e;
+            throw new InvalidUserException("USER WITH EMAIL + " + email + " NOT FOUND!");
         }
     }
 
